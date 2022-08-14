@@ -47,7 +47,9 @@ class Fretboard {
             stringSpacing: 40,
             minStringSize: 0.2,
             circleRadius: 18,
-            notes: ['E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#'],
+            notes: [['E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#'],
+                    ['E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb']],
+            sign: ['♯', '♭'],
         };
         this.consts.numStrings = this.consts.stringIntervals.length;
         this.consts.fretHeight = (this.consts.numStrings - 1) * this.consts.stringSpacing;
@@ -57,7 +59,12 @@ class Fretboard {
             visibility: 'transparent',
             startFret: 0,
             endFret: 12,
+            enharmonic: 0
         };
+
+        // Set end fret according to viewport width
+        this.state.endFret = Math.min(Math.floor((window.innerWidth - 2 * this.consts.offsetX ) / this.consts.fretWidth), 12);
+        opts.endFret.value = this.state.endFret;
 
         this.computeDependents();
 
@@ -69,6 +76,14 @@ class Fretboard {
     computeDependents() {
         this.state.numFrets = this.state.endFret - this.state.startFret;
         this.state.fretboardWidth = this.consts.fretWidth * this.state.numFrets;
+    }
+
+    toggleEnharmonic() {
+        const untoggledEnharmonic = this.state.enharmonic;
+        this.state.enharmonic = (untoggledEnharmonic + 1) % 2;
+        this.erase();
+        this.draw();
+        return this.consts.sign[untoggledEnharmonic];
     }
 
     setFretWindow(fretWindow) {
@@ -141,14 +156,7 @@ class Fretboard {
             switch (event.code) {
                 case 'Backspace':
                 case 'Delete':
-                    // reset text
-                    const text = selected.lastChild;
-                    if (text) {
-                        text.innerHTML = text.getAttribute('data-note');
-                    }
-                    this.updateNote(selected,
-                        { color: "white", visibility: this.state.visibility });
-                    this.state.selected = null;
+                    this.deleteNote()
                     break;
                 case 'KeyB':
                     this.updateNote(selected, { color: "blue" });
@@ -167,6 +175,25 @@ class Fretboard {
                     break;
             }
         })
+    }
+
+    deleteNote() {
+        // reset text
+        const selected = this.state.selected;
+        const text = selected.lastChild;
+        if (text) {
+            text.innerHTML = text.getAttribute('data-note');
+        }
+        this.updateNote(selected, { 
+            color: "white", visibility: this.state.visibility 
+        });
+        this.state.selected = null;
+    }
+
+    updateColor(event) {
+        this.updateNote(this.state.selected, { 
+            color: event.currentTarget.getAttribute("title") 
+        });
     }
 
     drawFrets() {
@@ -231,6 +258,7 @@ class Fretboard {
         });
         this.notes.appendChild(note);
         note.addEventListener("click", (event) => this.noteClickHandler(event));
+        note.addEventListener("dblclick", (event) => this.noteDoubleClickHandler(event));
 
         const circle = createSvgElement('circle', {
             'r': this.consts.circleRadius,
@@ -257,7 +285,7 @@ class Fretboard {
 
     computeNoteName(fret, string) {
         const interval = this.consts.stringIntervals[string] + fret + 1;
-        return this.consts.notes[interval % 12];
+        return this.consts.notes[this.state.enharmonic][interval % 12];
     }
 
     drawNotes() {
@@ -289,6 +317,7 @@ class Fretboard {
     noteClickHandler(event) {
         event.stopPropagation();
         const note = event.currentTarget;
+        note.focus();
         if (this.state.selected) {
             this.updateNote(this.state.selected, {
                 visibility: 'visible',
@@ -302,6 +331,21 @@ class Fretboard {
         if (event.ctrlKey) {
             this.editSelectedLabel();
         }
+    }
+
+    noteDoubleClickHandler(event) {
+        event.stopPropagation();
+        const note = event.currentTarget;
+        if (this.state.selected) {
+            this.updateNote(this.state.selected, {
+                visibility: 'visible',
+            });
+        }
+        this.updateNote(note, {
+            visibility: 'selected',
+        });
+        this.state.selected = note;
+        this.editSelectedLabel();
     }
 
     editSelectedLabel() {
@@ -448,9 +492,11 @@ class Fretboard {
 /* Initialize diagram */
 
 const svg = document.getElementById('fretboard');
+const endFret = document.getElementById('end-fret');
 
 const fretboard = new Fretboard({
     svg: svg,
+    endFret: endFret
 })
 
 /* Button for toggeling unselected notes */
@@ -478,7 +524,7 @@ svgButton.addEventListener('click', () => {
 const PROPERTIES = ["fill", "stroke", "stroke-width", "text-anchor", "dominant-baseline"]
 
 function inlineCSS(svg) {
-    const svgElements = document.querySelectorAll("svg *");
+    const svgElements = document.querySelectorAll("#fretboard *");
     const clonedSVG = svg.cloneNode(deep = true);
     const clonedElements = clonedSVG.querySelectorAll("*");
     for (let i = 0; i < svgElements.length; i++) {
@@ -520,7 +566,25 @@ startFret.addEventListener('input', (event) => {
     fretboard.setFretWindow({ start: event.target.value - 1 });
 });
 
-const endFret = document.getElementById('end-fret');
 endFret.addEventListener('input', (event) => {
     fretboard.setFretWindow({ end: parseInt(event.target.value) });
+});
+
+/* Color selector */
+
+const colorButtons = document.querySelectorAll("button.color");
+for (let button of colorButtons) {
+    button.addEventListener('click', (event) => {
+        fretboard.updateColor(event);
+    });
+}
+
+const deleteNoteButton = document.getElementById("delete-note");
+deleteNoteButton.addEventListener('click', () => fretboard.deleteNote());
+
+
+const enharmonicToggle = document.getElementById("enharmonic");
+enharmonicToggle.addEventListener('click', () => {
+    const sign = fretboard.toggleEnharmonic();
+    enharmonicToggle.innerHTML = sign;
 });
