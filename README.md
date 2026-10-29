@@ -2,8 +2,6 @@
 
 A simple online tool with which you can create fretboard diagrams for the guitar. 
 
-Demo: https://zeitbach.com/projects/fretboard-diagram-creator/
-
 ## Features
 
 * Freely select notes for scale or chord diagrams
