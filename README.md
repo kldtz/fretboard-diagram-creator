@@ -2,7 +2,8 @@
 
 A simple online tool with which you can create fretboard diagrams for the guitar. 
 
-Demo: https://proceed-to-decode.com/posts/2020/fretboard-diagram-creator/
+To use this tool locally, download the files (click on Code > Download ZIP, unzip on your machine) and open `index.html` in your Browser.
+ 
 
 ## Features
 
@@ -11,3 +12,4 @@ Demo: https://proceed-to-decode.com/posts/2020/fretboard-diagram-creator/
 * Color notes
 * Select part of the fretboard
 * Save diagram as SVG
+

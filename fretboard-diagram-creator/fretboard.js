@@ -546,6 +546,8 @@ function inlineCSS(svg) {
             'styles': styles,
         });
     }
+    const backgroundColor = getComputedStyle(svg).getPropertyValue('background-color');
+    clonedSVG.setAttribute('style', `background-color: ${backgroundColor}`);
     return clonedSVG;
 }
 

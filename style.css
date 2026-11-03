@@ -1,0 +1,113 @@
+:root {
+    --text-width: 38.6rem;
+    --smaller-text: 0.9rem;
+    --text-color: black;
+    --link-color: rgb(37, 69, 165);
+    --background-color: #f8f8f8;
+    --highlight-color: firebrick;
+    font-size: 105%;
+    font-family: "Helvetica", sans-serif;
+    line-height: 1.5;
+    overflow: auto;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    color-scheme: light dark;
+    margin-left: calc(100vw - 100%);
+    margin-right: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text-color: rgb(190, 186, 181);
+        --link-color: rgb(83, 154, 212);
+        --background-color: #161718;
+        --highlight-color: rgb(213, 67, 67);
+    }
+}
+
+body {
+    margin: auto;
+    max-width: var(--text-width);
+    padding: 0.7em 0.7em;
+}
+
+/* Header */
+
+header {
+    font-size: var(--smaller-text);
+}
+
+header h1 {
+    margin-bottom: 0;
+    font-size: 1.5rem;
+}
+
+/* Headers */
+
+h1 {
+    font-size: 1.5rem;
+}
+
+h2 {
+    font-size: 1.2rem;
+}
+
+h3 {
+    font-size: 1rem;
+}
+
+/* Links */
+
+a {
+    text-decoration: underline;
+    color: var(--text-color);
+}
+
+:target {
+    color: var(--highlight-color);
+}
+
+a:hover {
+    opacity: 0.7;
+}
+
+a[href ^="http"] {
+    text-decoration: underline;
+    color: var(--link-color);
+}
+
+a[href ^="http"]:visited {
+    text-decoration-color: var(--background-color);
+}
+
+/* Blocks between text */
+
+ol, ul, blockquote {
+    margin-left: 1em;
+    margin-right: 1em;
+    padding-left: 1em;
+}
+
+figure {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+figcaption {
+    font-size: var(--smaller-text);
+    text-align: center;
+}
+
+/* Navigation */
+
+footer {
+    text-align: center;
+    font-size: large;
+}
+
+footer a {
+    text-decoration: none;
+    display: inline-block;
+    padding: 0.5em;
+}

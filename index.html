@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="fretboard-diagram-creator/fretboard.css">
+<title>Fretboard Diagram Creator</title>
+
+<header style="text-align: center;">
+<h1>Fretboard Diagram Creator</h1>
+<time datetime="2020-12-22">Dec 22, 2020</time>
+</header>
+
+<figure id="fretboard-diagram-creator" class="half-full">
+  <svg xmlns="http://www.w3.org/2000/svg" id="fretboard" width=900 height=280 style="background-color: var(--background-color);">
+
+  </svg>
+</figure>
+<div class="menu">
+  <div id="color-selector">
+    <button title="blue" class="color blue"></button>
+    <button title="green" class="color green"></button>
+    <button title="red" class="color red"></button>
+    <button title="white" class="color white"></button>
+    <button title="black" class="color black"></button>
+    <button title="delete" id="delete-note">X</button>
+  </div>
+  <div id="global-actions">
+    <input id="start-fret" type="number" class="num-input" value="1" name="startFret" min=1 max=22 maxlength="2" style="width: 5ch" autocomplete=off>
+    <button id="enharmonic" style="width: 25px; text-align: center;">♭</button>
+    <button id="visibility" class="button">Toggle</button>
+    <button id="save-svg" class="button">Save</button>
+    <button id="reset" class="button">Reset</button>
+    <input id="end-fret" type="number" class="num-input" value="12" name="startFret" min=1 max=22 maxlength="2" style="width: 5ch" autocomplete=off>
+    <a id="svg-link" download="fretboard-diagram.svg"></a>
+  </div>
+</div>
+
+<p>
+Check out the <a href="modes.html">example diagrams</a> I created with this tool to get an idea of what your finished diagram might look like. The color scheme depends on your <a href="/blog/2022/10/29/css-only-dark-theme">browser/<wbr>operating system settings</a>. The diagram was updated to be mobile-friendly; let me know if you encounter any problems.
+
+<h2>Interactions</h2>
+
+<p>
+You can select notes and perform actions on the selected note.
+
+<ul>
+<li>Click one of the circles to <b>select</b> a note on the fretboard. The note is now highlighted and will later show up in your exported diagram.
+<li>Use the colored buttons to set the <b>color</b> of the selected note. Alternatively, type <i>r</i>, <i>g</i>, <i>b</i>, <i>d</i>, or <i>w</i> for red, green, blue, black, or white.
+<li>Press the <i>X</i> button to <b>delete</b> the selected note. Alternatively, press <i>Delete</i> or <i>Backspace</i> on your keyboard.
+<li>Double click into a note to <b>edit</b> its label. Hit <i>Enter</i> or click outside of the note being edited to save the changes.
+</ul>
+
+<p>
+With the second row of controls, you can perform actions on the whole diagram.
+
+<ul>
+<li>Click <i>♭</i> or <i>♯</i> to toggle between <b>sharp</b> and <b>flat</b> signs. Only note labels that you have not edited manually are affected.
+<li>Click <i>Toggle</i> to <b>hide</b> all notes that you have not selected or make them appear again. Do this before you save the diagram to get the clean version.
+<li>Click <i>Save</i> to <b>save</b> the diagram as SVG.
+<li>Click <i>Reset</i> to <b>reset</b> your diagram and start from scratch.
+<li>Enter <i>start</i> fret and <i>end</i> fret to display a different <b>part of the fretboard</b>. Changes outside of the displayed part are kept until the diagram is reset.
+</ul>
+
+<p>
+Remember that all of this only runs in your browser, so be careful about refreshing the page. The <a href="https://github.com/kldtz/fretboard-diagram-creator">code</a> lives on GitHub. Plain JavaScript, without dependencies. <a href="https://www.reddit.com/r/musictheory/comments/kows26/a_simple_online_tool_for_creating_guitar/">Comments</a> can be found on Reddit.
+
+
+<script src="fretboard-diagram-creator/fretboard.js"></script>
+
+
+<footer><a href="/blog">⬆</a></footer>

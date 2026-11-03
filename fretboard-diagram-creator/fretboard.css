@@ -1,3 +1,14 @@
+:root {
+    --background-color: white;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: #161718;
+    }
+}
+
+
 /* Diagram */
 
 g.note.transparent:hover {
@@ -5,16 +16,16 @@ g.note.transparent:hover {
 }
 
 g.note {
-    fill: white;
+    fill: var(--background-color);
     stroke-width: 1px;
-    stroke: black;
+    stroke: var(--text-color);
 }
 
 g.note.selected>circle {
     opacity: 1;
     stroke-dasharray: 4, 4;
     stroke-width: 3px;
-    stroke: black;
+    stroke: var(--text-color);
 }
 
 g.note.hidden {
@@ -27,7 +38,7 @@ g.note.transparent {
 
 g.note.visible {
     opacity: 1;
-    fill: white;
+    fill: var(--background-color);
 }
 
 g.note.blue {
@@ -40,12 +51,12 @@ g.note.blue>text {
 }
 
 g.note.black {
-    fill: black;
+    fill: var(--text-color);
 }
 
 g.note.black>text {
-    stroke: white;
-    fill: white;
+    stroke: var(--background-color);
+    fill: var(--background-color);
 }
 
 g.note.red {
@@ -67,20 +78,20 @@ g.note.green>text {
 }
 
 path.string {
-    stroke: black;
+    stroke: var(--text-color);
     fill: none;
 }
 
 path.frets {
-    stroke: black;
+    stroke: var(--text-color);
     stroke-width: 1px;
     fill: none;
 }
 
 g.note>text {
-    stroke: black;
+    stroke: var(--text-color);
     stroke-width: 0px;
-    fill: black;
+    fill: var(--text-color);
     text-anchor: middle;
     dominant-baseline: middle;
     font-size: 18px;
@@ -104,7 +115,7 @@ div.menu {
 text.marker {
     text-anchor: middle;
     font-size: 16px;
-    fill: black;
+    fill: var(--text-color);
 }
 
 
@@ -138,7 +149,7 @@ button.color:hover {
 }
 
 .color.black {
-    background-color: black;
+    background-color: var(--text-color);
 }
 
 .color.green {
@@ -150,7 +161,7 @@ button.color:hover {
 }
 
 .color.white {
-    background-color: white;
+    background-color: var(--background-color);
 }
 
 /* Global actions */
