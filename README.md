@@ -2,7 +2,7 @@
 
 A simple online tool with which you can create fretboard diagrams for the guitar. 
 
-To use this tool locally, download the files (click on Code > Download ZIP, unzip on your machine) and open `index.html` in your Browser.
+To use this tool locally, download the files (click on Code > Download ZIP, unzip on your machine) and open `index.html` in your browser.
  
 
 ## Features
